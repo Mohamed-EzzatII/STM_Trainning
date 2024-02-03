@@ -1,0 +1,16 @@
+*********************************************************
+
+Welcome to my command shell
+Please note that the max command size is 100
+
+*********************************************************
+mesa_mesa>mesa
+mesa
+mesa_mesa>welcome
+welcome
+mesa_mesa>a7la mesa
+a7la mesa
+mesa_mesa>exit
+exit
+Good Bye:)
+
