@@ -15,6 +15,8 @@
  **************************************************************************/
 
 #define MAX_CMD_SIZE 200
+#define MAX_ARG_SIZE 100
+#define MAX_ARG_NO   10
 
 /**************************************************************************
  ****************************Func Prototypes*******************************
@@ -35,12 +37,12 @@ int main(int argc, char **argv)
     /*************************Local Variables Decleration******************/    
     pid_t fork_r; 		  /* fork function return id */ 
     char *cmd="test";    	  /* the input command */ 
-    char *argc_ex[] = { NULL };   /* first argument to execvp */
+    char **argc_ex = NULL; 	  /* first argument to execvp */
 //  char *argv_ex[] = { NULL };   /* second argument to execve (deleted)*/
     int status;	                  /* empty integer for wait to get the status */
     char *tokened_command=NULL;   /* To store the command after slicing it */
 
-    while(strcmp(cmd,"exit")!=0) {
+    while(1) {
 
 	printf("ezzat_shell>>");
 
@@ -52,7 +54,12 @@ int main(int argc, char **argv)
 
 	/* replace \n with \0 (NULL) */
 	cmd[strlen(cmd) - 1] = '\0';	
-			
+	
+	if(strcmp(cmd ,"exit")==0){
+		printf("Good Bye :(\n");
+		return -1;
+	}
+
 	/* creating a new process without deleting the parent  process */	
 	fork_r = fork();
 
@@ -65,18 +72,24 @@ int main(int argc, char **argv)
 	else if (fork_r == 0) {
 	    /* it means that the user entered a command + arguments not a simple commad */
 	    if(index(cmd,' ') != NULL){
-		 		    
+		 
+		/* alocate the arg_ex */
+		argc_ex = (char **) malloc( sizeof(char *) * MAX_ARG_NO);	  
+		
+		/* alocate the first argument*/
+		argc_ex[0] = (char *) malloc( sizeof(char) * MAX_ARG_SIZE);
+
 		/* alocate the command */
 		tokened_command = (char*)malloc(100*sizeof(char));
 
 	        /* get the command as the first word */
 		tokened_command = strtok(cmd," ");
-
+		
 		/* get the other words until the user entered commands are finished all
 		 * which means that we reached at the end of cmd which is \0 */
 		int i=1;
 		argc_ex[0]="";/* Don't remove this line */
-		while(argc_ex[i]=strtok(NULL," ")){
+		while( (argc_ex[i]=(char *)malloc(sizeof(char) * MAX_ARG_SIZE ) ) && (argc_ex[i]=strtok(NULL," ")) ){
 			i++;
 		}
 
@@ -103,6 +116,8 @@ int main(int argc, char **argv)
             		printf("Exexution failed\n");
 		}
 		free(tokened_command);
+		free(argc_ex);
+	    	argc_ex = NULL;
 	    }
 		
 	    else{
@@ -123,6 +138,7 @@ int main(int argc, char **argv)
             		 printf("Exexution failed\n");
 
 		}
+
 		free(cmd);
 	    }
 	}
