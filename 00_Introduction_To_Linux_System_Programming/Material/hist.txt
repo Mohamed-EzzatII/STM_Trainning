@@ -1,0 +1,190 @@
+    1  id
+    2  exit
+    3  su test
+    4  exit
+    5  usermod -G sudo reda
+    6  exit
+    7  cat /dev/sdb
+    8  ls
+    9  cd new_folder/
+   10  ls
+   11  cd session7/
+   12  ls
+   13  cat hello 
+   14  cat args.c 
+   15  man head
+   16  head -c 5 args.c 
+   17  tail -c 10 args.c 
+   18  man dd
+   19  dd 
+   20  dd if=args.c of=./hello bs=10 count=2
+   21  vim hello 
+   22  dd if=/dev/sdb bs=512 count=1
+   23  dd if=/dev/sdb bs=512 count=1 |hexdump 
+   24  ls
+   25  cd ../
+   26  ls
+   27  mkdir session8
+   28  cd session8/
+   29  head -c 512 /dev/sdb 
+   30  head -c 512 /dev/sdb | hexdump 
+   31  head -c 512 /dev/sdb | hexdump -c 1
+   32  head -c 512 /dev/sdb | hexdump -c 
+   33  head -c 512 /dev/sdb | hexdump 
+   34  head -c 512 /dev/sdb | tail -c 66 | hexdump 
+   35  head -c 512 /dev/sdb | tail -c 66 | head -c 64| hexdump 
+   36  head -c 512 /dev/sdb | tail -c 66 | hexdump 
+   37  ls
+   38  head -c 100 ../session7/args.c 
+   39  head -c 100 ../session7/args.c | tail -c 10 
+   40  head -c 100 ../session7/args.c 
+   41  head -c 100 ../session7/args.c | tail -c 10 
+   42  head -c 512 /dev/sdb | tail -c 66 | hexdump 
+   43  head -c 100 ../session7/args.c 
+   44  tail -c 66 /dev/sdb 
+   45  head -c 512 /dev/sdb | tail -c 66 | hexdump -C
+   46  head -c 512 /dev/sdb | tail -c 66 | hexdump -C 4
+   47  head -c 512 /dev/sdb | tail -c 66 | hexdump -ve '"%08x" "\n"'
+   48  man fdisk 
+   49  fdisk -l /dev/sdb
+   50  head -c 512 /dev/sda | tail -c 66 | hexdump -C
+   51  head -c 512 /dev/sdb | tail -c 66 | hexdump -C
+   52  vim /home/test
+   53  ls
+   56  clear
+   57  ls
+   58  gcc -o myfdisk myfdisk.c 
+   59  ./myfdisk /dev/sdb
+   60  fdisk -l /dev/sdb
+   61  exit
+   62  vim myfdisk.c 
+   63  fdisk -l /dev/sdb
+   64  fdisk /dev/sdb
+   65  fdisk -l
+   66  fdisk -l /dev/sdb
+   67  head -c 512 /dev/sdb | tail -c 66 | hexdump -C
+   68  fdisk -l /dev/sdb
+   69  fdisk /dev/sdb
+   70  fdisk -l /dev/sdb
+   71  ls /dev/sdb
+   72  ls /dev/sdb*
+   73  ls
+   74  fdisk /dev/sdb
+   75  fdisk -l /dev/sdb
+   76  dd if=/dev/sdb1 bs=512 count=1 |hexdump  -C
+   77  fdisk /dev/sdb
+   78  fdisk -l /dev/sdb
+   79  dd if=/dev/sdb1 bs=512 count=1 |hexdump  -C
+   80  dd if=/dev/sdb1 bs=512 count=1 | tail -c 66 |hexdump  -C
+   81  fdisk  /dev/sdb
+   82  fdisk -l /dev/sdb
+   83  fdisk  /dev/sdb
+   84  fdisk -l /dev/sdb
+   85  man lseek
+   86  ls
+   87  ls /sbin/*mk*fs*
+   88  man fs
+   89  cd /tmp/
+   90  ls
+   91  man fs
+   92  cd -
+   93  /sbin/mkfs.ext2 /dev/sdb3
+   94  fdisk -l /dev/sdb
+   95  lsblk /dev/sdb
+   96  lsblk  -o name,type,fstype,parttype,size,mode /dev/sdb
+   97  mkfs.ntfs /dev/sdb8
+   98  lsblk  -o name,type,fstype,parttype,size,mode /dev/sdb
+   99  man mount
+  100  ls
+  101  mkdir mymountpoint
+  102  ls
+  103  cd my
+  104  cd mymountpoint/
+  105  ls -l
+  106  cd ../
+  107  man 2 mount
+  108  mount /dev/sdb3 ./mymountpoint
+  109  ls
+  110  cd my
+  111  cd mymountpoint/
+  112  ls
+  113  lsblk 
+  114  lsblk /dev/sdb
+  115  cd ../
+  116  umount ./mymountpoint/
+  117  ls mymountpoint/
+  118  lsblk /dev/sdb
+  119  mount /dev/sdb3 ./mymountpoint
+  120  ls mymountpoint/
+  121  vim ./mymountpoint/hello.txt
+  122  pwd
+  123  ls
+  124  cd my
+  125  cd mymountpoint/
+  126  ls
+  127  ls /proc/
+  128  ls /proc/42/cmdline 
+  129  ls
+  130  vim hello.txt 
+  131  montu
+  132  mount
+  133  findmnt
+  134  ls
+  135  ls /
+  136  findmnt
+  137  ls
+  138  cd ../
+  139  ls
+  140  mkdir mymnt2
+  141  ls
+  142  mount /dev/sdb3 ./mymnt2/
+  143  tree
+  144  apt install tree
+  145  ls
+  146  tree
+  147  cat mymnt2/hello.txt 
+  148  cat mymountpoint/hello.txt 
+  149  vim mymountpoint/hello.txt 
+  150  cat mymountpoint/hello.txt 
+  151  cat mymnt2/hello.txt 
+  152  findmnt
+  153  umount /dev/sdb3
+  154  findmnt
+  155  umount /dev/sdb3
+  156  findmnt
+  157  umount /dev/sdb3
+  158  lsblk /dev/sdb
+  159  findmnt 
+  160  man tune2fs 
+  161  tune2fs -l /dev/sdb3
+  162  ls
+  163  ls -i
+  164  ls -i -1
+  165  findmnt
+  166  mount ./mymountpoint/ /dev/sdb3
+  167  mount /dev/sdb3 ./mymountpoint/
+  168  findmnt
+  169  ls -i1
+  170  cd mymountpoint/
+  171  ls -i1
+  172* cd / 
+  173  ls -i1
+  174  ls -i1 -a
+  175  cd -
+  176  ls -i1
+  177  touch myfile.txt
+  178  ls -i1
+  179  touch myfile2.txt
+  180  ls -i1
+  181  touch myfile3.txt
+  182  ls -i1
+  183  man 2  stat
+  184  man inode
+  185  stat hello.txt 
+  186  cat hello.txt 
+  187  man 2 stat
+  188  cat hello.txt 
+  189  stat hello.txt 
+  190  stat myfile.txt 
+  191  tune2fs -l /dev/sdb3
+  192  history > /home/test/win_shared/hist.txt

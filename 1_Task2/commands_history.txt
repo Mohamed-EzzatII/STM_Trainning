@@ -1,7 +1,0 @@
-vim task2.c  
-gcc -E task2.c >task2.i
-gcc -S task2.i > task2.s
-gcc -c task2.s > task2.o
-gcc task2.o -o task2
-./task2
-history > commands_history.txt
