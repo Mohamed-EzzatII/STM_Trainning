@@ -691,3 +691,161 @@ pid_t wait(int *status);
 
 #### **Orphan Processes**:
 - A process whose parent process no more exists i.e. either finished or terminated without waiting for its child process to terminate is called an orphan process.
+
+### proc file system:
+- The **proc file system** (or **/proc**) is a special filesystem in Linux that provides an interface to kernel data structures. It is commonly used to access information about processes and system hardware in a human-readable format. Unlike traditional filesystems, the `/proc` filesystem doesn't store actual data on disk; instead, it provides a dynamic, virtual view of the kernel's internal state.
+
+### Key Points:
+1. **Virtual Filesystem**: 
+   - The `/proc` filesystem is a virtual filesystem that doesn't occupy physical disk space. Instead, it reflects the current state of the kernel and system, such as information about running processes, memory usage, system configuration, etc.
+
+2. **Access to Kernel Data**:
+   - `/proc` allows users and processes to access information about the kernel’s internal operations, system resources, hardware, and running processes in a readable format.
+
+3. **Location and Mounting**:
+   - By default, `/proc` is mounted at boot time and is available at the root of the filesystem (`/proc`). It is managed by the kernel and does not need manual mounting.
+
+### Common Files and Directories in `/proc`:
+- **/proc/cpuinfo**: Displays detailed information about the CPU architecture, model, and features.
+- **/proc/meminfo**: Shows information about system memory, including total memory, free memory, buffers, and cached memory.
+- **/proc/uptime**: Provides the system’s uptime and the amount of time the system has spent in idle mode.
+- **/proc/version**: Displays the version of the Linux kernel and some basic details about the system.
+- **/proc/[pid]/**: Each running process has a directory under `/proc` identified by its process ID (PID). Inside these directories, you can find information like the process's memory, status, command-line arguments, and more. For example, `/proc/12345/` would contain information about the process with PID 12345.
+  - **/proc/[pid]/status**: Shows the status of a specific process (e.g., memory usage, state, etc.).
+  - **/proc/[pid]/cmdline**: Displays the command-line arguments used to start a process.
+
+### Common Uses:
+- **System Monitoring**: You can use `/proc` to get real-time statistics about processes, memory usage, CPU load, and more.
+- **Tuning and Debugging**: Administrators and developers use `/proc` to fine-tune system settings and debug processes.
+- **Accessing Process Information**: Programs can read the contents of `/proc/[pid]/` directories to obtain details about other processes running on the system.
+
+### Examples of Accessing `/proc`:
+- To view CPU information:
+  ```bash
+  cat /proc/cpuinfo
+  ```
+- To check system memory statistics:
+  ```bash
+  cat /proc/meminfo
+  ```
+- To check the uptime of the system:
+  ```bash
+  cat /proc/uptime
+  ```
+
+### Environment Variables :
+### What are Environment Variables?
+
+- **Environment variables** are variables in an operating system that are used to store configuration settings for the system and processes. These variables influence the behavior of processes running on the system by providing them with information about the environment they are running in. Environment variables can store system-wide information (like system paths, locale settings, etc.) or be specific to individual users or processes.
+
+### Common Environment Variables:
+
+1. **$PATH**: Specifies the directories in which executable programs are located. When you type a command, the system looks in these directories to find the program.
+2. **$HOME**: Represents the current user's home directory.
+3. **$USER**: The name of the currently logged-in user.
+4. **$PWD**: The current working directory.
+5. **$SHELL**: The path to the current shell program (e.g., `/bin/bash`).
+
+### How to Set Environment Variables Through the Terminal:
+
+To **set an environment variable** in the terminal, you can use the `export` command. This makes the variable available to the current shell and any processes spawned by it.
+
+#### Syntax:
+```bash
+export VARIABLE_NAME="value"
+```
+
+Example:
+```bash
+export MY_VAR="HelloWorld"
+```
+
+To **check the value of an environment variable**, use the `echo` command:
+```bash
+echo $MY_VAR
+```
+
+#### Making a Variable Available to All Future Sessions:
+If you want to make an environment variable persistent (available every time you log in), you should add the export command to the appropriate configuration file for your shell:
+
+- For **Bash**: Add `export MY_VAR="value"` to the `~/.bashrc` file.
+- For **Zsh**: Add it to `~/.zshrc`.
+
+### $PATH Environment Variable:
+
+The **$PATH** environment variable is one of the most important environment variables. It defines the list of directories the shell will search through to find executable files. This list is separated by a colon (`:`) in Unix-like systems.
+
+Example:
+```bash
+echo $PATH
+```
+This might output something like:
+```
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+```
+
+This means when you run a command like `ls`, the system looks in each of these directories (in order) to find the executable file for the `ls` command.
+
+To **add a directory to $PATH**:
+```bash
+export PATH=$PATH:/new/directory/path
+```
+This appends `/new/directory/path` to the existing `$PATH`.
+
+To **remove a directory from $PATH**:
+You can either manually edit `$PATH` or use `sed` or other tools to remove specific paths, but **direct manipulation** (i.e., removing it by reassigning `$PATH` excluding the unwanted part) is generally safer.
+
+Example:
+```bash
+export PATH=$(echo $PATH | sed -e 's|/unwanted/directory/path:||')
+```
+
+### How to Delete Environment Variables:
+
+To **delete** an environment variable in the current session, use the `unset` command.
+
+#### Syntax:
+```bash
+unset VARIABLE_NAME
+```
+
+Example:
+```bash
+unset MY_VAR
+```
+
+This will remove `MY_VAR` from the current environment. Note that this does not permanently delete the variable; it only removes it from the current session.
+
+### Passing Environment Variables from Parent to Child:
+
+When you **fork** a child process (e.g., using `fork()`), the child process inherits the environment of the parent process, including all environment variables. This means that environment variables are passed down automatically from the parent process to any child processes it spawns.
+
+Example:
+```bash
+export MY_VAR="parent_value"
+./child_program  # Child inherits MY_VAR
+```
+
+### What Happens if the Child Edits Environment Variables?
+
+If the **child process** changes an environment variable, the change only affects the **child** process and any processes it spawns. The **parent** process is not affected. This is because environment variables are copied to the child, and the child’s changes do not propagate back to the parent.
+
+For example, consider the following:
+```bash
+#!/bin/bash
+
+export MY_VAR="parent_value"
+./child_process &
+echo "Parent MY_VAR: $MY_VAR"
+```
+
+In the `child_process`, if the environment variable is modified:
+```bash
+#!/bin/bash
+
+export MY_VAR="child_value"
+echo "Child MY_VAR: $MY_VAR"
+```
+
+- The **child process** will see `MY_VAR="child_value"`.
+- The **parent process** will still have `MY_VAR="parent_value"` when it echoes it.
