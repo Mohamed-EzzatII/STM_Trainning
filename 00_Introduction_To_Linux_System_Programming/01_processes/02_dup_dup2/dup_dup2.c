@@ -17,8 +17,8 @@ int main(){
     /* Open and create a file to output our text in */
     int fd_output = open("output.txt",O_WRONLY | O_CREAT | O_TRUNC,0644);
 
-    /* Redirect the output to be in the output.txt file */
-    if(dub2(STD_OUTPUT,fd_output) == DUP2_ERR){
+    /* Redirect the output to be in the output.txt file not in terminal */
+    if(dup2(fd_output,STD_OUTPUT) == DUP2_ERR){
         printf("Error Opening the file !!\n");
     }
     else{
@@ -26,5 +26,4 @@ int main(){
         close(fd_output);
     }
     return 0;
-
 }
